@@ -1,121 +1,80 @@
-# AURA (All-in-one Unified Routine Assistant) 🌟
+# Let's generate a high-quality, professional, modern, developer-friendly README.md file
+# reflecting the AURA PRD specifications.
 
-AURA is a sleek, modern, and unified personal command center built with the MERN stack (MongoDB, Express, React, Node.js). It consolidates your most important daily tracking tools into a single, beautiful glassmorphism interface.
+readme_content = """# ⚡ AURA — All-in-one Unified Routine Assistant
 
-Why use 4 different apps for your tasks, habits, finances, and gym progress when you can track it all in one unified dashboard?
+> A personal life management dashboard consolidating tasks, habits, expenses, notes, and workouts into a single, unified view. Built with the **MERN** stack as a 100 Days of Code capstone project.
 
-## ✨ Features & Modules Deep Dive
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Stack](https://img.shields.io/badge/Stack-MERN-61DAFB.svg)](https://react.dev/)
 
-AURA is split into several focused modules, each accessible from the main navigation sidebar. Every page dynamically adjusts the application's core color palette to match its theme.
-
-### 📊 Unified Dashboard (Command Center)
-The dashboard acts as the heartbeat of AURA. It aggregates data from all other modules to give you a true "Life at a single view."
-- **Stat Cards**: Instantly see your pending tasks, active habit streaks, net financial balance, and how many times you've worked out this week.
-- **Visual Analytics**: Interactive Recharts visualize your financial spending breakdown across categories.
-- **Activity Rings**: If you haven't tracked expenses recently, it intelligently swaps to an SVG activity ring showing your weekly workout progress against your goal.
-- **Latest Note**: Surface your most recently captured thought or idea right on the home screen.
-
-### 📋 Tasks 
-A robust to-do list manager designed for prioritizing what matters today.
-- Log new tasks with titles, descriptions, and priority levels (High, Medium, Low).
-- Tasks are color-coded based on priority and feature inline status toggling (Pending to Completed).
-- Quick actions for editing and deleting tasks ensure your list is always relevant.
-
-### 🔁 Habits
-Build consistency and gamify your daily routines.
-- Create daily habits (e.g., "Read 30 mins", "Run for 1km").
-- **Streak Tracking**: AURA calculates and displays your *Current Streak* and *All-Time Best Streak* for every habit.
-- Active streak habits visually glow with a warm orange gradient to remind you not to break the chain.
-- A mini 7-day calendar view for each habit visualizes your recent consistency at a glance.
-
-### 💰 Finances
-Take control of your cash flow with an intuitive ledger and powerful charts.
-- **Income & Expenses**: Log transactions dynamically as either income or an expense.
-- **Net Balance Calculation**: Instantly calculates your Net Balance, Total Income, and Total Spend for the current month.
-- **Category Tracking**: Tag expenses (e.g., Food, Health, Entertainment) and visualize where your money goes via dynamic Bar and Pie charts.
-
-### 🏋️ Workouts
-Ditch the messy gym notebooks.
-- Log custom workouts (e.g., "Push Day", "Legs") on specific dates.
-- Add multiple exercises per workout, and log individual sets, reps, and weight lifted for each exercise.
-- AURA automatically calculates your **Total Volume** (reps × weight) for each exercise and the entire session.
-- Expandable accordion cards keep the UI clean while letting you dive deep into previous workout metrics.
-
-### 📝 Notes & 🎨 Theming
-- **Notes Module**: Capture long-form thoughts, ideas, or brain dumps. Add custom tags that automatically generate distinct colors for easy visual sorting.
-- **Dark & Light Mode**: Seamlessly switch between a sleek, deep-space dark mode and a crisp, clean light mode. The glassmorphism cards and custom shadows dynamically adapt to maintain a premium feel.
-- **Secure Authentication**: Full JWT-based user login and registration system.
-
-## 🛠️ Technology Stack
-
-**Frontend:**
-- React (Vite)
-- Tailwind CSS (Utility architecture)
-- Vanilla CSS (Glassmorphism & custom variables)
-- Recharts (Data visualization)
-- Lucide React (Iconography)
-
-**Backend:**
-- Node.js & Express.js
-- MongoDB & Mongoose (Database & ODM)
-- JSON Web Tokens (JWT) & bcrypt (Authentication & Security)
-
-## 🚀 How to Run the Project Locally
-
-### 1. Clone the Repository
-Start by cloning the repository to your local machine:
-```bash
-git clone https://github.com/aydensanthosh/aura.git
-cd aura
-```
-
-### 2. Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) (v16 or higher) and [MongoDB](https://www.mongodb.com/) installed (or use a free MongoDB Atlas cluster).
-
-### 3. Environment Variables
-Create a `.env` file in the `backend/` directory with the following keys:
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-NODE_ENV=development
-```
-
-### 4. Backend Setup
-Open a terminal, navigate to the backend folder, and start the server:
-```bash
-cd backend
-npm install
-npm run dev
-```
-*(The backend API will run on `http://localhost:5000`)*
-
-### 5. Frontend Setup
-Open a second terminal, navigate to the frontend folder, and start the React app:
-```bash
-cd frontend
-npm install
-npm run dev
-```
-*(The frontend will automatically open at `http://localhost:5173`)*
 
 ---
 
-## 🎮 How to Use AURA
+## 📌 Problem & Motivation
 
-Once both servers are running, follow these steps to get started:
+Most people fragment their daily routine across 4–5 isolated applications: Todoist for to-dos, a habit tracker, a budgeting app, Apple Notes or Notion for journaling, and a fitness logger. This fragmentation increases context switching, obscures the holistic picture of one's day/week, and drains consistency.
 
-1. **Create an Account**: Open the app in your browser and click "Sign Up." Create a secure account—your data will be safely stored and linked only to you via JWT authentication.
-2. **Set Up Habits**: Navigate to the **Habits** page (green theme) first. Create a few daily habits you want to track (e.g., "Drink Water", "Read").
-3. **Log Your Day**: Head to the **Tasks** page (blue theme) to jot down your immediate to-dos. You can mark their priorities.
-4. **Track Your Money**: Use the **Finances** page (terracotta theme) to log any money you spend or receive today.
-5. **View Your Life**: Go back to the **Dashboard**. You will now see your unified command center populated with your habit streaks, tasks due today, and a visual breakdown of your finances!
-
-## 🔮 Roadmap / Upcoming Features
-- [ ] Timeframe filtering for the dashboard (This Week, This Month, This Year).
-- [ ] Workout progression line charts (tracking strength over time).
-- [ ] Mobile-responsive sidebar (hamburger menu).
-- [ ] CSV data export for finances and habits.
+**AURA** solves this by unifying all core personal productivity verticals under a single authenticated account and high-level dashboard powered by high-performance MongoDB aggregation pipelines.
 
 ---
-*Built as part of the 100-Day Code Challenge.*
+
+## 🚀 Key Modules & Features
+
+### 1. 📋 Tasks & Priorities
+- Full CRUD operations with priority tags (`Low`, `Medium`, `High`), due dates, and custom categories.
+- Filtering by status (`Pending` / `Completed`), priority, and category; sorted dynamically by due date.
+- Dashboard quick-view for overdue items and tasks due today.
+
+### 2. 🔁 Habit Tracker & Streaks
+- Daily check-in system with automatic streak calculations (current streak & longest historical streak).
+- Instant visibility on dashboard for today's incomplete habits and ongoing momentum.
+
+### 3. 💸 Lightweight Expense Log
+- Fast transaction logging (amount, category, note, timestamp).
+- Monthly spending rollups and category breakdowns computed server-side via MongoDB aggregation.
+- Top category identification and monthly total spend display.
+
+### 4. 📝 Notes & Reflection
+- Quick freeform journaling and scratchpad with tag support.
+- Full-text MongoDB search indexing across note titles and content bodies.
+- Highlights latest note directly on the home dashboard.
+
+### 5. 🏋️ Workout Session & Volume Tracker
+- Structured session logging with nested documents for exercises and sets (`reps`, `weight`).
+- Reusable workout templates (e.g., Push / Pull / Legs).
+- Progress tracking over time (e.g., bench press max over time)
+
+### 6. 📊 Unified Dashboard
+- Aggregated multi-resource dashboard combining live data from all 5 modules in a single trip.
+- Interactive visualizations: Expense breakdown pie/bar chart and workout progression line charts.
+- Sub-500ms response targets powered by dedicated backend aggregation endpoints.
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend** | React (Vite), Tailwind CSS, React Router | Fast, responsive UI with zero-friction navigation |
+| **Data Visualization** | Recharts | Smooth, interactive SVG charting for workouts and expenses |
+| **HTTP Client** | Axios | Configured with auth interceptors for JWT injection |
+| **Backend** | Node.js, Express.js | RESTful API server with modular routers |
+| **Database** | MongoDB Atlas, Mongoose ODM | Document store supporting subdocs & aggregation pipelines |
+| **Auth & Security** | JWT (JSON Web Tokens), bcryptjs | Stateless authorization, password hashing, user scoping |
+| **Deployment** | Vercel (Frontend), Render / Railway (Backend) | CI/CD linked deployments |
+
+---
+
+## 🗄️ High-Level Data Model
+
+```text
+User (Parent)
+ │
+ ├── Task       ─── references user_id
+ ├── Habit      ─── references user_id [checkins: date[]]
+ ├── Expense    ─── references user_id
+ ├── Note       ─── references user_id (text indexed)
+ └── Workout    ─── references user_id
+                     └── exercises: [{ name, sets: [{ reps, weight }] }] (embedded)
