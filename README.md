@@ -109,28 +109,19 @@ Create a `.env` file in `/server` with:
 MONGO_URI=your_mongodb_atlas_connection_string
 JWT_SECRET=your_jwt_secret
 PORT=5000
+NODE_ENV=dev
 ```
 
 ### Running Locally
 
 ```bash
-# Start the backend (from /server)
+# Start the backend (from /backend)
 npm run dev
 
-# Start the frontend (from /client)
+# Start the frontend (from /frontend)
 npm run dev
 ```
 
 The client will run on `http://localhost:5173` and the API on `http://localhost:5000`.
 
 ---
-
-## 🤝 Contributing
-
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting issues and pull requests.
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
