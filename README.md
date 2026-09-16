@@ -1,14 +1,10 @@
-# Let's generate a high-quality, professional, modern, developer-friendly README.md file
-# reflecting the AURA PRD specifications.
-
-readme_content = """# ⚡ AURA — All-in-one Unified Routine Assistant
+# ⚡ AURA — All-in-one Unified Routine Assistant
 
 > A personal life management dashboard consolidating tasks, habits, expenses, notes, and workouts into a single, unified view. Built with the **MERN** stack as a 100 Days of Code capstone project.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Stack](https://img.shields.io/badge/Stack-MERN-61DAFB.svg)](https://react.dev/)
-
 
 ---
 
@@ -44,7 +40,7 @@ Most people fragment their daily routine across 4–5 isolated applications: Tod
 ### 5. 🏋️ Workout Session & Volume Tracker
 - Structured session logging with nested documents for exercises and sets (`reps`, `weight`).
 - Reusable workout templates (e.g., Push / Pull / Legs).
-- Progress tracking over time (e.g., bench press max over time)
+- Progress tracking over time (e.g., bench press max over time).
 
 ### 6. 📊 Unified Dashboard
 - Aggregated multi-resource dashboard combining live data from all 5 modules in a single trip.
@@ -78,3 +74,63 @@ User (Parent)
  ├── Note       ─── references user_id (text indexed)
  └── Workout    ─── references user_id
                      └── exercises: [{ name, sets: [{ reps, weight }] }] (embedded)
+```
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+- Node.js (v18+)
+- npm or yarn
+- A MongoDB Atlas connection string
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/<your-username>/aura.git
+cd aura
+
+# Install server dependencies
+cd server
+npm install
+
+# Install client dependencies
+cd ../client
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file in `/server` with:
+
+```env
+MONGO_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+```
+
+### Running Locally
+
+```bash
+# Start the backend (from /server)
+npm run dev
+
+# Start the frontend (from /client)
+npm run dev
+```
+
+The client will run on `http://localhost:5173` and the API on `http://localhost:5000`.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting issues and pull requests.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
