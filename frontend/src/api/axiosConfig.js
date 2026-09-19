@@ -1,14 +1,12 @@
 import axios from 'axios';
 
 const API_URL =
-  import.meta.env.VITE_API_URL ||
-  (window.location.hostname === 'localhost'
-    ? 'http://localhost:5000/api'
-    : `${window.location.origin}/api`);
+  import.meta.env.VITE_API_URL || 'https://aura-gucs.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_URL,
 });
+
 
 // Add a request interceptor to include the auth token
 api.interceptors.request.use(
