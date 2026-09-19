@@ -7,6 +7,7 @@ const CATEGORIES = ['Work', 'Personal', 'Health', 'Learning', 'Finance', 'Other'
 
 const priorityColor = (p) => ({ high: 'badge-high', medium: 'badge-medium', low: 'badge-low' }[p]);
 const statusIcon = (s) => s === 'complete' ? <CheckCircle2 size={18} color="var(--color-success)" /> : <Circle size={18} color="var(--color-text-muted)" />;
+const isTaskMissing = (task) => task.status !== 'complete' && task.dueDate && new Date(task.dueDate).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
 
 const Modal = ({ onClose, children }) => (
   <div className="modal-overlay" onClick={onClose}>
@@ -96,8 +97,13 @@ const Tasks = () => {
     setTasks((t) => t.filter((x) => x._id !== id));
   };
 
-  const filtered = filter === 'all' ? tasks : tasks.filter((t) => t.status === filter);
-  
+  const missingTasks = tasks.filter(isTaskMissing);
+  const filtered = filter === 'all'
+    ? tasks
+    : filter === 'missing'
+      ? missingTasks
+      : tasks.filter((t) => t.status === filter);
+
   const priorityValue = (p) => p === 'high' ? 3 : p === 'medium' ? 2 : 1;
 
   const sortedTasks = [...filtered].sort((a, b) => {
@@ -120,7 +126,9 @@ const Tasks = () => {
       <div className="page-header">
         <div>
           <div className="page-title">Tasks</div>
-          <div className="page-subtitle">{tasks.filter(t => t.status === 'pending').length} pending · {tasks.filter(t => t.status === 'complete').length} completed</div>
+          <div className="page-subtitle">
+            {tasks.filter(t => t.status === 'pending').length} pending · {tasks.filter(t => t.status === 'complete').length} completed · {missingTasks.length} missing
+          </div>
         </div>
         <button className="btn-primary" onClick={() => setShowModal(true)}><Plus size={16} /> New Task</button>
       </div>
@@ -128,7 +136,7 @@ const Tasks = () => {
       {/* Filter Tabs */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          {['all', 'pending', 'complete'].map((f) => (
+          {['all', 'pending', 'complete', 'missing'].map((f) => (
             <button key={f} onClick={() => setFilter(f)} style={{
               padding: '0.4rem 1rem',
               borderRadius: '999px',
@@ -140,7 +148,7 @@ const Tasks = () => {
               color: filter === f ? '#fff' : 'var(--color-text-muted)',
               transition: 'all 0.2s',
             }}>
-              {f.charAt(0).toUpperCase() + f.slice(1)}
+              {f === 'missing' ? 'Missing' : f.charAt(0).toUpperCase() + f.slice(1)}
             </button>
           ))}
         </div>
@@ -167,33 +175,45 @@ const Tasks = () => {
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-          {sortedTasks.map((task) => (
-            <div key={task._id} className="glass-card animate-slideUp" style={{ padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', gap: '1rem', opacity: task.status === 'complete' ? 0.65 : 1 }}>
-              <button className="btn-icon" onClick={() => toggleStatus(task)} title="Toggle complete">
-                {statusIcon(task.status)}
-              </button>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-                  <span style={{ fontWeight: 600, fontSize: '0.95rem', textDecoration: task.status === 'complete' ? 'line-through' : 'none', color: 'var(--color-text)' }}>{task.title}</span>
-                  <span className={`badge ${priorityColor(task.priority)}`}>{task.priority}</span>
-                  {task.category && <span className="badge" style={{ background: 'var(--color-border)', color: 'var(--color-text-muted)' }}>{task.category}</span>}
-                </div>
-                {task.description && <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '0.25rem', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{task.description}</p>}
-                {task.dueDate && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.3rem' }}>
-                    <Calendar size={12} />
-                    {new Date(task.dueDate).toLocaleDateString()}
-                  </div>
-                )}
-              </div>
-              <div style={{ display: 'flex', gap: '0.25rem' }}>
-                <button className="btn-icon" onClick={() => setEditing(task)} title="Edit">✏️</button>
-                <button className="btn-icon" onClick={() => handleDelete(task._id)} title="Delete">
-                  <Trash2 size={16} color="var(--color-danger)" />
+          {sortedTasks.map((task) => {
+            const missing = isTaskMissing(task);
+            return (
+              <div key={task._id} className="glass-card animate-slideUp" style={{
+                padding: '1rem 1.25rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                opacity: task.status === 'complete' ? 0.65 : 1,
+                borderColor: missing ? 'rgba(239,68,68,0.35)' : undefined,
+                background: missing ? 'rgba(239,68,68,0.05)' : undefined,
+              }}>
+                <button className="btn-icon" onClick={() => toggleStatus(task)} title="Toggle complete">
+                  {statusIcon(task.status)}
                 </button>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <span style={{ fontWeight: 600, fontSize: '0.95rem', textDecoration: task.status === 'complete' ? 'line-through' : 'none', color: 'var(--color-text)' }}>{task.title}</span>
+                    <span className={`badge ${priorityColor(task.priority)}`}>{task.priority}</span>
+                    {missing && <span className="badge" style={{ background: 'rgba(239,68,68,0.15)', color: '#fca5a5' }}>Missing</span>}
+                    {task.category && <span className="badge" style={{ background: 'var(--color-border)', color: 'var(--color-text-muted)' }}>{task.category}</span>}
+                  </div>
+                  {task.description && <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '0.25rem', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{task.description}</p>}
+                  {task.dueDate && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.75rem', color: missing ? '#fca5a5' : 'var(--color-text-muted)', marginTop: '0.3rem' }}>
+                      <Calendar size={12} />
+                      {new Date(task.dueDate).toLocaleDateString()}
+                    </div>
+                  )}
+                </div>
+                <div style={{ display: 'flex', gap: '0.25rem' }}>
+                  <button className="btn-icon" onClick={() => setEditing(task)} title="Edit">✏️</button>
+                  <button className="btn-icon" onClick={() => handleDelete(task._id)} title="Delete">
+                    <Trash2 size={16} color="var(--color-danger)" />
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

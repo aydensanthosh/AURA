@@ -102,7 +102,7 @@ const Finances = () => {
       </div>
 
       {/* Summary cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.75rem' }}>
+      <div className="finance-summary-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.75rem' }}>
         <div className="glass-card" style={{ padding: '1.25rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div style={{ padding: '0.625rem', borderRadius: '0.75rem', background: 'rgba(99,102,241,0.15)', color: 'var(--color-primary)' }}><Wallet size={20} /></div>
@@ -134,10 +134,39 @@ const Finances = () => {
         </div>
       </div>
 
+      <style>{`
+        @media (max-width: 900px) {
+          .finance-summary-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          .finance-main-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          .finance-transaction-card {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.75rem !important;
+            padding: 0.9rem 1rem !important;
+          }
+
+          .finance-transaction-header {
+            width: 100% !important;
+            flex-wrap: wrap !important;
+          }
+
+          .finance-transaction-price {
+            width: 100% !important;
+            justify-content: space-between !important;
+          }
+        }
+      `}</style>
+
       {/* Chart + List */}
-      <div style={{ display: 'grid', gridTemplateColumns: pieData.length > 0 ? '1fr 1.5fr' : '1fr', gap: '1.5rem' }}>
+      <div className="finance-main-grid" style={{ display: 'grid', gridTemplateColumns: pieData.length > 0 ? '1fr 1.5fr' : '1fr', gap: '1.5rem' }}>
         {pieData.length > 0 && (
-          <div className="glass-card" style={{ padding: '1.5rem', height: '320px' }}>
+          <div className="glass-card" style={{ padding: '1.5rem', height: '320px', width: '100%' }}>
             <h3 style={{ fontWeight: 700, marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--color-text)' }}>Expense Breakdown</h3>
             <ResponsiveContainer width="100%" height="88%">
               <PieChart>
@@ -166,31 +195,32 @@ const Finances = () => {
               {sortedTransactions.map((e) => {
                 const isIncome = e.type === 'income';
                 return (
-                <div key={e._id} className="glass-card animate-slideUp" style={{ padding: '0.875rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', minWidth: 0 }}>
-                    <div style={{
-                      width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
-                      background: isIncome ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)',
-                      color: isIncome ? '#10b981' : '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center'
-                    }}>
-                       {isIncome ? <TrendingUp size={16}/> : <TrendingDown size={16}/>}
-                    </div>
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span>{e.category}</span>
-                        {e.note && <span style={{ fontWeight: 400, fontSize: '0.8rem', color: 'var(--color-text-muted)', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>- {e.note}</span>}
+                  <div key={e._id} className="glass-card animate-slideUp finance-transaction-card" style={{ padding: '0.875rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', width: '100%' }}>
+                    <div className="finance-transaction-header" style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', minWidth: 0, width: '100%' }}>
+                      <div style={{
+                        width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
+                        background: isIncome ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                        color: isIncome ? '#10b981' : '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                      }}>
+                        {isIncome ? <TrendingUp size={16}/> : <TrendingDown size={16}/>}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.2rem' }}>{new Date(e.date).toLocaleDateString()}</div>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                          <span>{e.category}</span>
+                          {e.note && <span style={{ fontWeight: 400, fontSize: '0.8rem', color: 'var(--color-text-muted)', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>- {e.note}</span>}
+                        </div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.2rem' }}>{new Date(e.date).toLocaleDateString()}</div>
+                      </div>
+                    </div>
+                    <div className="finance-transaction-price" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
+                      <span style={{ fontWeight: 700, fontSize: '1rem', color: isIncome ? '#10b981' : 'var(--color-danger)' }}>
+                        {isIncome ? '+' : '-'}₹{e.amount.toFixed(2)}
+                      </span>
+                      <button className="btn-icon" onClick={() => handleDelete(e._id)}><Trash2 size={15} color="var(--color-danger)" /></button>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-                    <span style={{ fontWeight: 700, fontSize: '1rem', color: isIncome ? '#10b981' : 'var(--color-danger)' }}>
-                      {isIncome ? '+' : '-'}₹{e.amount.toFixed(2)}
-                    </span>
-                    <button className="btn-icon" onClick={() => handleDelete(e._id)}><Trash2 size={15} color="var(--color-danger)" /></button>
-                  </div>
-                </div>
-              )})}
+                );
+              })}
             </div>
           )}
         </div>

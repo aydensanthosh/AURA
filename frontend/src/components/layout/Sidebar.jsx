@@ -12,6 +12,7 @@ import {
   LogOut,
   Sun,
   Moon,
+  X,
 } from 'lucide-react';
 
 const navItems = [
@@ -23,7 +24,7 @@ const navItems = [
   { path: '/workouts', icon: Dumbbell, label: 'Workouts' },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ isMobile = false, mobileOpen = true, onClose = () => {} }) => {
   const { user, logout } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const Sidebar = () => {
   return (
     <aside
       style={{
-        width: '240px',
+        width: isMobile ? '240px' : '240px',
         flexShrink: 0,
         height: '100vh',
         display: 'flex',
@@ -44,27 +45,55 @@ const Sidebar = () => {
         background: 'var(--color-surface)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderRight: '1px solid var(--color-border)',
+        borderRight: isMobile ? 'none' : '1px solid var(--color-border)',
+        position: isMobile ? 'fixed' : 'relative',
+        left: isMobile ? 0 : undefined,
+        top: isMobile ? 0 : undefined,
+        zIndex: 50,
+        transition: 'transform 0.22s ease',
+        transform: isMobile ? (mobileOpen ? 'translateX(0)' : 'translateX(-105%)') : 'translateX(0)',
+        boxShadow: isMobile ? 'var(--shadow-soft)' : 'none',
       }}
     >
-      {/* Logo */}
-      <div style={{ padding: '1.5rem 1.25rem', borderBottom: '1px solid var(--color-border)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 1rem 1rem', borderBottom: '1px solid var(--color-border)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', minWidth: 0 }}>
           <img
             src="/logo.png"
             alt="AURA Logo"
             style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: '8px',
+              width: '42px',
+              height: '42px',
+              borderRadius: '10px',
               boxShadow: 'var(--shadow-glow)',
               objectFit: 'cover',
             }}
           />
-          <div style={{ fontWeight: 800, fontSize: '3rem', color: 'var(--color-text)', letterSpacing: '-0.02em' }}>
+          <div style={{ fontWeight: 800, fontSize: '2.1rem', color: 'var(--color-text)', letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
             AURA
           </div>
         </div>
+
+        {isMobile && (
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={onClose}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '36px',
+              height: '36px',
+              borderRadius: '10px',
+              border: '1px solid var(--color-border)',
+              background: 'transparent',
+              color: 'var(--color-text-muted)',
+              cursor: 'pointer',
+            }}
+          >
+            <X size={18} />
+          </button>
+        )}
       </div>
 
       {/* Nav */}
@@ -75,6 +104,7 @@ const Sidebar = () => {
               key={path}
               to={path}
               end={end}
+              onClick={() => onClose && onClose()}
               style={({ isActive }) => ({
                 display: 'flex',
                 alignItems: 'center',

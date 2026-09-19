@@ -1,3 +1,4 @@
+//All models from MongoDB
 const Task = require('../models/Task');
 const Habit = require('../models/Habit');
 const Expense = require('../models/Expense');
@@ -70,8 +71,11 @@ const getDashboardSummary = async (req, res, next) => {
       { $sort: { total: -1 } }
     ]);
 
-    // Most Recent Note
-    const recentNote = await Note.findOne({ userId }).sort({ date: -1 });
+    // Top 3 most recent notes
+    const recentNotes = await Note.find({ userId })
+      .sort({ date: -1, createdAt: -1, _id: -1 })
+      .limit(3)
+      .lean();
 
     // Weekly Workout Summary
     const oneWeekAgo = new Date(today);
@@ -89,7 +93,7 @@ const getDashboardSummary = async (req, res, next) => {
       monthlySpend,
       netBalance,
       expenseBreakdown,
-      recentNote,
+      recentNotes,
       weeklyWorkouts,
     });
   } catch (error) {
